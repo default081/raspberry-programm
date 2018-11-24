@@ -1,0 +1,6 @@
+# spam.py
+import time
+
+for _ in range(5):
+    print("eggs")
+    time.sleep(1)
