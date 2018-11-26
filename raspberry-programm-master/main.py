@@ -13,8 +13,12 @@ humidity = 42 #static
 temperatute = 21 #static
 OC2 = 0
 Fuel = 47 #static
-batery = 47 #static
+batery = 72 #static
 voltageSP = 80 #static
+
+pressureStatus = "Norm"
+CO2status = "Norm"
+
 
 CBLUE = '\033[94m'
 CRED = '\033[31m'
@@ -22,20 +26,14 @@ CGREEN = '\033[92m'
 CEND = '\033[0m'
 while 1:
 
-	print(CBLUE + """
-  /$$$$$$   /$$$$$$  /$$        /$$$$$$  /$$   /$$ /$$     /$$
- /$$__  $$ /$$__  $$| $$       /$$__  $$| $$  / $$|  $$   /$$/
-| $$  \__/| $$  \ $$| $$      | $$  \ $$|  $$/ $$/ \  $$ /$$/ 
-| $$ /$$$$| $$$$$$$$| $$      | $$$$$$$$ \  $$$$/   \  $$$$/  
-| $$|_  $$| $$__  $$| $$      | $$__  $$  >$$  $$    \  $$/   
-| $$  \ $$| $$  | $$| $$      | $$  | $$ /$$/\  $$    | $$    
-|  $$$$$$/| $$  | $$| $$$$$$$$| $$  | $$| $$  \ $$    | $$    
- \______/ |__/  |__/|________/|__/  |__/|__/  |__/    |__/    
-                                                              
-                                                                            
-	""" + CEND)
 
-	print (CGREEN + tabulate([['Pressure', str(pressure) + ' kPa'], ['Pressure', str(temperatute) + ' C', "Norm"], ['Humidity', str(humidity) + ' %', "Norm"], ['oxygen', str(oxygen) + " %", "Abnormally"], ['CO2', str(OC2) + " %"], ['Voltage of solar panel', str(voltageSP) + " V", "Norm"], ['Batery voltage', str(batery) + " V", "Norm"], ['Fuel', str(Fuel) + " %", "Norm"]],
+	if(pressure <= 49):
+		pressureStatus = "Abnormally"
+	if(OC2 >= 5):
+		CO2status = "Abnormally"
+
+
+	print (CGREEN + tabulate([['Pressure', str(pressure) + ' kPa', pressureStatus], ['Temperatute', str(temperatute) + ' C', "Norm"], ['Humidity', str(humidity) + ' %', "Norm"], ['oxygen', str(oxygen) + " %", "Abnormally"], ['CO2', str(OC2) + " %", CO2status], ['Voltage of solar panel', str(voltageSP) + " V", "Norm"], ['Batery voltage', str(batery) + " V", "Norm"], ['Fuel', str(Fuel) + " %", "Norm"]],
 	 headers=['Parameter', 'Value', 'Status']) + CEND)
 
 	print(CRED + "\n \nAttention! L'impermeabilite de la navette est cassee!" +  CEND)
@@ -46,10 +44,14 @@ while 1:
 	if oxygen == 0:
 		time.sleep(20)
 		break
-		
+
+	pressure -= 0.5
 	oxygen -= 1
 	OC2 += 0.5
 	m.click(600,600)
 	time.sleep(0.2)
 	# time.sleep(60)
 	os.system('clear')
+
+	# print (CGREEN + tabulate([['Pressure', str(pressure) + ' kPa', "Norm"], ['Temperatute', str(temperatute) + ' C', "Norm"], ['Humidity', str(humidity) + ' %', "Norm"], ['oxygen', str(oxygen) + " %", "Abnormally"], ['CO2', str(OC2) + " %", "Norm"], ['Voltage of solar panel', str(voltageSP) + " V", "Norm"], ['Batery voltage', str(batery) + " V", "Norm"], ['Fuel', str(Fuel) + " %", "Norm"]],
+	 # headers=['Parameter', 'Value', 'Status']) + CEND)
